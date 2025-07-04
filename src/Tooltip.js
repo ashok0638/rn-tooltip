@@ -1,7 +1,7 @@
 //  @flow
 
 import * as React from 'react';
-import { TouchableOpacity, Modal, View, I18nManager } from 'react-native';
+import { TouchableOpacity, Modal, View, I18nManager, StatusBar, Platform } from 'react-native';
 import { ViewPropTypes as RNViewPropTypes } from 'deprecated-react-native-prop-types';
 import PropTypes from 'prop-types';
 
@@ -128,7 +128,8 @@ class Tooltip extends React.Component<Props, State> {
 
     const pastMiddleLine = yOffset > y;
     if (typeof height !== 'number' && pastMiddleLine) {
-      tooltipStyle.bottom = ScreenHeight - y;
+       const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+      tooltipStyle.bottom =(ScreenHeight) - y -statusBarHeight;
     } else if (typeof height === 'number' && pastMiddleLine) {
       tooltipStyle.top = y - height;
     } else {
