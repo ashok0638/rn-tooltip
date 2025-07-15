@@ -1,6 +1,6 @@
 {
   "name": "rn-tooltip-enhanced",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "src/Tooltip.js",
   "homepage": "https://github.com/AndreiCalazans/rn-tooltip#readme",
   "repository": {
@@ -64,6 +64,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-native": "^0.55.4",
-    "react-test-renderer": "^16.4.0"
+    "react-test-renderer": "^16.4.0",
+    "@react-native-async-storage/async-storage": "^2.1.2"
   }
 }

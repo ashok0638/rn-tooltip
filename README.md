@@ -1,11 +1,6 @@
-
-[![npm version](https://badge.fury.io/js/rn-tooltip.svg)](https://badge.fury.io/js/rn-tooltip)
-
-
 # rn-tooltip-enhanced
 
-*Simple, lightwweight and **blazing fast** react native tooltip*
-
+_Simple, lightwweight and **blazing fast** react native tooltip_
 
 <img src="./tooltipExample.gif" width='250' />
 
@@ -20,8 +15,6 @@ Code for the Expo app is here: https://github.com/andreiCalazans/rnTooltipTester
 or
 
 `npm install rn-tooltip-enhanced--save`
-
-
 
 ## Usage
 
@@ -38,25 +31,74 @@ import Tooltip from 'rn-tooltip-enhanced';
 
 ## Props
 
-* [`backgroundColor`](#backgroundcolor)
-* [`containerStyle`](#containerStyle)
-* [`height`](#height)
-* [`highlightColor`](#highlightColor)
-* [`onClose`](#onClose)
-* [`onOpen`](#onOpen)
-* [`pointerColor`](#pointerColor)
-* [`pointerStyle`](#pointerStyle)
-* [`popover`](#popover)
-* [`actionType`](#actionType)
-* [`width`](#width)
-* [`withOverlay`](#withOverlay)
-* [`overlayColor`](#withOverlay)
-* [`withPointer`](#withPointer)
-* [`toggleWrapperProps`](#toggleWrapperProps)
+- [`backgroundColor`](#backgroundcolor)
+- [`containerStyle`](#containerStyle)
+- [`height`](#height)
+- [`highlightColor`](#highlightColor)
+- [`onClose`](#onClose)
+- [`onOpen`](#onOpen)
+- [`pointerColor`](#pointerColor)
+- [`pointerStyle`](#pointerStyle)
+- [`popover`](#popover)
+- [`actionType`](#actionType)
+- [`width`](#width)
+- [`withOverlay`](#withOverlay)
+- [`overlayColor`](#withOverlay)
+- [`withPointer`](#withPointer)
+- [`toggleWrapperProps`](#toggleWrapperProps)
 
 ---
 
+## 📌 Note: Safe Area Insets Required for Proper Positioning
+
+In the latest versions of React Native, the `Dimensions.get('window').height` **does not return the full screen height**. Instead, it excludes system UI elements like the status bar or the bottom navigation bar.  
+This can cause **misalignment issues** for tooltips, especially those positioned at the bottom of the screen or near screen edges.
+
+### ❗ Why This Matters
+
+- `Dimensions.get('screen').height` gives the total screen height but doesn't account for system UI overlays.
+- To **accurately align** the tooltip or arrow icon, we must subtract the **safe area insets** (top, bottom).
+- These insets are device-specific and can only be accessed from the app side using `useSafeAreaInsets()`.
+
+---
+
+## ✅ Required Setup in Your App
+
+To make this library work reliably across all devices, you need to provide the safe area insets manually from your app and store them using AsyncStorage.
+
+### Add This Code to Your Initial Screen (e.g., `HomeScreen.js`):
+
+```js
+import React, { useEffect } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const HomeScreen = () => {
+  const insets = useSafeAreaInsets();
+
+  const saveInsets = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'useSafeAreaInsetsValue',
+        JSON.stringify(insets)
+      );
+    } catch (e) {
+      console.log('Error saving insets:', e);
+    }
+  };
+
+  useEffect(() => {
+    saveInsets();
+  }, []);
+
+  return (
+    // Your screen JSX
+  );
+};
+
+
 ## Reference
+
 
 ### `backgroundColor`
 
@@ -202,4 +244,6 @@ Drills TouchableOpacity Props down to the TouchableOpacity wrapper that toggles 
 | TouchableOpacityProps | {} |
 
 
+
 **MIT Licensed**
+```
